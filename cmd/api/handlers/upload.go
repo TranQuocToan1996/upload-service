@@ -110,6 +110,9 @@ func (h *UploadHandler) Upload(c echo.Context) error {
 
 func (h *UploadHandler) write(source io.ReadCloser, newName string) error {
 	defer source.Close()
+	if _, err := os.Stat(h.config.PathUpload); os.IsNotExist(err) {
+		os.MkdirAll(h.config.PathUpload, os.ModePerm)
+	}
 	destination, err := os.Create(fmt.Sprintf("%v/%v", h.config.PathUpload, newName))
 	if err != nil {
 		return err
