@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/labstack/gommon/log"
-	"github.com/ory/viper"
+	"github.com/spf13/viper"
 )
 
 func InitConfig(path string) {

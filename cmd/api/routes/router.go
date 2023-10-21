@@ -9,14 +9,19 @@ import (
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/ory/viper"
+	"github.com/spf13/viper"
+	"golang.org/x/time/rate"
 )
 
 func Router(
 	authHandler *handlers.AuthHandler,
 	userHandler *handlers.UserHandler,
+	uploadHandler *handlers.UploadHandler,
 ) *echo.Echo {
 	r := echo.New()
+	r.Use(middleware.BodyLimit(viper.GetString("BODY_LIMIT")))
+	r.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(
+		rate.Limit(viper.GetInt("REQUEST_PER_SECOND_LIMIT")))))
 	r.Use(middleware.Logger())
 	r.Use(middlewares.CORS())
 	r.Use(middleware.Secure())
@@ -40,7 +45,10 @@ func Router(
 	privateGroup.Use(echojwt.WithConfig(jwtConfig))
 
 	userPrivateGroup := privateGroup.Group("/users")
-	userPrivateGroup.POST("/revoke-token", userHandler.RevokeToken)
+	userPrivateGroup.PATCH("/revoke-token", userHandler.RevokeToken)
+
+	fileGroup := privateGroup.Group("/files")
+	fileGroup.POST("/upload", uploadHandler.Upload)
 
 	return r
 }
