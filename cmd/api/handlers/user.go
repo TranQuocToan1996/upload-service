@@ -60,7 +60,7 @@ func (h *UserHandler) RevokeToken(c echo.Context) error {
 
 	response, err = h.userService.RevokeToken(request, &claims.UserClaims)
 	if err != nil {
-		log.Errorf("[Register] err: %v", err)
+		log.Errorf("[RevokeToken] err: %v", err)
 		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
 	}
 

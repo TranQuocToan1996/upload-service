@@ -19,7 +19,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/ory/viper"
+	"github.com/spf13/viper"
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 )
@@ -28,8 +28,9 @@ func NewHTTPServer(
 	lc fx.Lifecycle,
 	authHanlder *handlers.AuthHandler,
 	userHandler *handlers.UserHandler,
+	uploadFileHandler *handlers.UploadHandler,
 ) *http.Server {
-	handler := routes.Router(authHanlder, userHandler).Server.Handler
+	handler := routes.Router(authHanlder, userHandler, uploadFileHandler).Server.Handler
 	server := &http.Server{
 		Addr: viper.GetString("APP_HTTP_SERVER"), Handler: handler,
 		ReadHeaderTimeout: time.Second * time.Duration(viper.GetInt("HTTP_READ_HEADER_TIMEOUT")),
@@ -73,6 +74,9 @@ func main() {
 			services.ProvideUserService,
 			handlers.ProvideAuthHandler,
 			handlers.ProvideUserHandler,
+			handlers.ProvideUploadHandler,
+			services.ProvideUploadService,
+			repositories.ProvideUploadRepository,
 		),
 		fx.Invoke(func(*http.Server) {}),
 	).Run()

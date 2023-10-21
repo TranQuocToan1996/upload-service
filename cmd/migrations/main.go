@@ -9,8 +9,8 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/ory/viper"
 	"github.com/pressly/goose/v3"
+	"github.com/spf13/viper"
 )
 
 //go:embed sqls/*.sql

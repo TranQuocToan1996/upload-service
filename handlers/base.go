@@ -10,7 +10,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
-	"github.com/ory/viper"
+	"github.com/spf13/viper"
 )
 
 var ErrEmptyClaims = errors.New("empty claims")
