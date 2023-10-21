@@ -36,5 +36,6 @@ func Router(authHandler *handlers.AuthHandler) *echo.Echo {
 
 	userGroup := publicGroup.Group("/users")
 	userGroup.POST("", authHandler.Register)
+	userGroup.POST("/login", authHandler.Login)
 	return r
 }

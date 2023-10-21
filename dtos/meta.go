@@ -15,6 +15,8 @@ const (
 	BindError     = "BindError"
 	InternalError = "InternalError"
 	UserExist     = "UserExist"
+	UserNotExist  = "UserNotExist"
+	PasswordWrong = "PasswordWrong"
 )
 
 func GetMeta(metaType string) Meta {
@@ -30,6 +32,8 @@ var mapMeta = map[string]Meta{
 	BindError:     bindError,
 	InternalError: internalError,
 	UserExist:     userExist,
+	UserNotExist:  userNotExist,
+	PasswordWrong: passwordWrong,
 }
 
 var success = Meta{
@@ -50,4 +54,14 @@ var internalError = Meta{
 var userExist = Meta{
 	Code:    "4000101",
 	Message: "User name exist",
+}
+
+var userNotExist = Meta{
+	Code:    "4000102",
+	Message: "User not exist",
+}
+
+var passwordWrong = Meta{
+	Code:    "4000102",
+	Message: "Password Wrong",
 }
