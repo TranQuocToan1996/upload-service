@@ -4,6 +4,13 @@ import (
 	"errors"
 	"net/http"
 	"strings"
+
+	"upload_service/services"
+	tokens "upload_service/token"
+
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/labstack/echo/v4"
+	"github.com/ory/viper"
 )
 
 var ErrEmptyClaims = errors.New("empty claims")
@@ -32,4 +39,47 @@ func (b *BaseHandler) GetHTTPCode(code string) int {
 	default:
 		return http.StatusInternalServerError
 	}
+}
+
+func (b *BaseHandler) getClaims(c echo.Context) (jwt.Claims, error) {
+	defaultKey := viper.GetString("KEY_CLAIMS")
+	if len(defaultKey) == 0 {
+		defaultKey = "user" // Default setting of library
+	}
+
+	if c.Get(defaultKey) == nil {
+		return nil, ErrEmptyClaims
+	}
+
+	tokenObj, ok := c.Get(defaultKey).(*jwt.Token)
+	if !ok {
+		return nil, ErrEmptyClaims
+	}
+
+	return tokenObj.Claims, nil
+}
+
+func (b *BaseHandler) GetUserClaims(c echo.Context) (*tokens.JWTClaims, error) {
+	claimsObj, err := b.getClaims(c)
+	if err != nil {
+		return nil, err
+	}
+
+	claims, ok := claimsObj.(*tokens.JWTClaims)
+	if !ok {
+		return nil, ErrEmptyClaims
+	}
+
+	return claims, nil
+}
+
+func (b *BaseHandler) IsRevokeToken(userService services.UserService, claims *tokens.JWTClaims) bool {
+	user, _ := userService.GetByID(claims.UserID)
+	if user == nil {
+		return true
+	}
+	if user.RevokeTokenAt == 0 {
+		return false
+	}
+	return user.RevokeTokenAt >= claims.IssuedAt.Unix()
 }

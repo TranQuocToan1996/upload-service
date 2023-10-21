@@ -27,8 +27,9 @@ import (
 func NewHTTPServer(
 	lc fx.Lifecycle,
 	authHanlder *handlers.AuthHandler,
+	userHandler *handlers.UserHandler,
 ) *http.Server {
-	handler := routes.Router(authHanlder).Server.Handler
+	handler := routes.Router(authHanlder, userHandler).Server.Handler
 	server := &http.Server{
 		Addr: viper.GetString("APP_HTTP_SERVER"), Handler: handler,
 		ReadHeaderTimeout: time.Second * time.Duration(viper.GetInt("HTTP_READ_HEADER_TIMEOUT")),
@@ -71,6 +72,7 @@ func main() {
 			services.ProvideAuthService,
 			services.ProvideUserService,
 			handlers.ProvideAuthHandler,
+			handlers.ProvideUserHandler,
 		),
 		fx.Invoke(func(*http.Server) {}),
 	).Run()

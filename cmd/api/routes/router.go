@@ -12,7 +12,10 @@ import (
 	"github.com/ory/viper"
 )
 
-func Router(authHandler *handlers.AuthHandler) *echo.Echo {
+func Router(
+	authHandler *handlers.AuthHandler,
+	userHandler *handlers.UserHandler,
+) *echo.Echo {
 	r := echo.New()
 	r.Use(middleware.Logger())
 	r.Use(middlewares.CORS())
@@ -21,6 +24,9 @@ func Router(authHandler *handlers.AuthHandler) *echo.Echo {
 
 	// Public routes
 	publicGroup := r.Group("upload-service/v1")
+	userPublicGroup := publicGroup.Group("/users")
+	userPublicGroup.POST("", authHandler.Register)
+	userPublicGroup.POST("/login", authHandler.Login)
 
 	jwtConfig := echojwt.Config{
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
@@ -30,12 +36,11 @@ func Router(authHandler *handlers.AuthHandler) *echo.Echo {
 			return []byte(viper.GetString("KEY")), nil
 		},
 	}
-
 	privateGroup := publicGroup.Group("")
 	privateGroup.Use(echojwt.WithConfig(jwtConfig))
 
-	userGroup := publicGroup.Group("/users")
-	userGroup.POST("", authHandler.Register)
-	userGroup.POST("/login", authHandler.Login)
+	userPrivateGroup := privateGroup.Group("/users")
+	userPrivateGroup.POST("/revoke-token", userHandler.RevokeToken)
+
 	return r
 }

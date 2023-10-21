@@ -17,6 +17,7 @@ const (
 	UserExist     = "UserExist"
 	UserNotExist  = "UserNotExist"
 	PasswordWrong = "PasswordWrong"
+	TokenRevoke   = "TokenRevoke"
 )
 
 func GetMeta(metaType string) Meta {
@@ -34,6 +35,7 @@ var mapMeta = map[string]Meta{
 	UserExist:     userExist,
 	UserNotExist:  userNotExist,
 	PasswordWrong: passwordWrong,
+	TokenRevoke:   tokenRevoke,
 }
 
 var success = Meta{
@@ -44,6 +46,11 @@ var success = Meta{
 var bindError = Meta{
 	Code:    "4000100",
 	Message: "Bind error",
+}
+
+var tokenRevoke = Meta{
+	Code:    "4010100",
+	Message: "Token revoke",
 }
 
 var internalError = Meta{
