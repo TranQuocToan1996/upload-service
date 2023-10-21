@@ -9,14 +9,17 @@ import (
 	"upload_service/models"
 	tokens "upload_service/token"
 	"upload_service/utils"
-
-	"github.com/labstack/echo/v4"
 )
 
-var ErrUserExist = errors.New("user already created")
+var (
+	ErrUserExist     = errors.New("user already created")
+	ErrUserNotExist  = errors.New("user not exist")
+	ErrPasswordWrong = errors.New("password wrong")
+)
 
 type AuthService interface {
-	Register(c echo.Context, request dtos.RegisterRequest) (*dtos.RegisterResponse, error)
+	Register(request dtos.RegisterRequest) (*dtos.RegisterResponse, error)
+	Login(request dtos.LoginRequest) (*dtos.LoginResponse, error)
 }
 
 func ProvideAuthService(
@@ -37,7 +40,7 @@ type authService struct {
 	userService   UserService
 }
 
-func (s *authService) Register(c echo.Context,
+func (s *authService) Register(
 	request dtos.RegisterRequest,
 ) (*dtos.RegisterResponse, error) {
 	response := &dtos.RegisterResponse{Meta: dtos.GetMeta(dtos.InternalError)}
@@ -67,6 +70,39 @@ func (s *authService) Register(c echo.Context,
 
 	token := s.createToken(&tokens.UserClaims{
 		UserID: newUser.ID,
+	})
+
+	response.Data = &dtos.Tokens{
+		AccessToken: token,
+	}
+	response.Meta = dtos.GetMeta(dtos.Success)
+
+	return response, nil
+}
+
+func (s *authService) Login(
+	request dtos.LoginRequest,
+) (*dtos.LoginResponse, error) {
+	response := &dtos.LoginResponse{Meta: dtos.GetMeta(dtos.InternalError)}
+	existUser, _ := s.userService.GetByUserName(request.UserName)
+	if existUser == nil {
+		response.Meta = dtos.GetMeta(dtos.UserNotExist)
+		return response, ErrUserNotExist
+	}
+
+	salt, err := hex.DecodeString(existUser.Salt)
+	if err != nil {
+		return response, err
+	}
+
+	match := utils.IsPasswordsMatch(existUser.Password, request.Password, salt)
+	if !match {
+		response.Meta = dtos.GetMeta(dtos.PasswordWrong)
+		return response, ErrPasswordWrong
+	}
+
+	token := s.createToken(&tokens.UserClaims{
+		UserID: existUser.ID,
 	})
 
 	response.Data = &dtos.Tokens{

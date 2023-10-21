@@ -46,9 +46,35 @@ func (h *AuthHandler) Register(c echo.Context) error {
 		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
 	}
 
-	response, err = h.authService.Register(c, request)
+	response, err = h.authService.Register(request)
 	if err != nil {
 		log.Errorf("[Register] err: %v", err)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	return c.JSON(http.StatusOK, response)
+}
+
+func (h *AuthHandler) Login(c echo.Context) error {
+	var (
+		request  = dtos.LoginRequest{}
+		response = &dtos.LoginResponse{}
+	)
+
+	err := c.Bind(&request)
+	if err != nil {
+		response.Meta = dtos.GetMeta(dtos.BindError)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	if err := h.validator.Struct(request); err != nil {
+		response.Meta = dtos.GetMeta(dtos.BindError)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	response, err = h.authService.Login(request)
+	if err != nil {
+		log.Errorf("[Login] err: %v", err)
 		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
 	}
 
