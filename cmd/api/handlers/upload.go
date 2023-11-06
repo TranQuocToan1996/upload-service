@@ -14,6 +14,7 @@ import (
 	"upload_service/models"
 	"upload_service/services"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"github.com/spf13/viper"
@@ -22,21 +23,61 @@ import (
 type UploadHandler struct {
 	baseHanlder.BaseHandler
 
+	validator     *validator.Validate
 	config        config.Config
 	uploadService services.UploadService
 	userService   services.UserService
 }
 
 func ProvideUploadHandler(
+	validator *validator.Validate,
 	config config.Config,
 	uploadService services.UploadService,
 	userService services.UserService,
 ) *UploadHandler {
 	return &UploadHandler{
+		validator:     validator,
 		config:        config,
 		uploadService: uploadService,
 		userService:   userService,
 	}
+}
+
+func (h *UploadHandler) Download(c echo.Context) error {
+	var (
+		request  = dtos.DownloadFileRequest{}
+		response = &dtos.DownloadFileErrResponse{Meta: dtos.GetMeta(dtos.InternalError)}
+	)
+
+	err := c.Bind(&request)
+	if err != nil {
+		response.Meta = dtos.GetMeta(dtos.BindError)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	if err := h.validator.Struct(request); err != nil {
+		response.Meta = dtos.GetMeta(dtos.BindError)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	claims, err := h.GetUserClaims(c)
+	if err != nil {
+		response.Meta = dtos.GetMeta(dtos.InternalError)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	if h.IsRevokeToken(h.userService, claims) {
+		response.Meta = dtos.GetMeta(dtos.TokenRevoke)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	data, contentType, err := h.uploadService.DownloadByID(request.FileID)
+	if err != nil {
+		log.Errorf("[DownloadImage] err: %v", err)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	return c.Blob(http.StatusOK, contentType, data)
 }
 
 func (h *UploadHandler) Upload(c echo.Context) error {
