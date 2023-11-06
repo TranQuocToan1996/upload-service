@@ -43,6 +43,43 @@ func ProvideUploadHandler(
 	}
 }
 
+func (h *UploadHandler) List(c echo.Context) error {
+	var (
+		request  = dtos.GetListFilesUploadRequest{}
+		response = &dtos.GetListFilesUploadResponse{Meta: dtos.GetMeta(dtos.InternalError)}
+	)
+
+	err := c.Bind(&request)
+	if err != nil {
+		response.Meta = dtos.GetMeta(dtos.BindError)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	if err := h.validator.Struct(request); err != nil {
+		response.Meta = dtos.GetMeta(dtos.BindError)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	claims, err := h.GetUserClaims(c)
+	if err != nil {
+		response.Meta = dtos.GetMeta(dtos.InternalError)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	if h.IsRevokeToken(h.userService, claims) {
+		response.Meta = dtos.GetMeta(dtos.TokenRevoke)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	response, err = h.uploadService.ListFiles(request)
+	if err != nil {
+		log.Errorf("[ListImages] err: %v", err)
+		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
+	}
+
+	return c.JSON(http.StatusOK, response)
+}
+
 func (h *UploadHandler) Download(c echo.Context) error {
 	var (
 		request  = dtos.DownloadFileRequest{}

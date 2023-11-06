@@ -8,6 +8,24 @@ type BaseResponse struct {
 type Meta struct {
 	Code    string `json:"code"`
 	Message string `json:"message"`
+	Limit   int64  `json:"limit,omitempty"`
+	Offset  int64  `json:"offset,omitempty"`
+	Total   int64  `json:"total,omitempty"`
+}
+
+func (m *Meta) SetLimit(limit int64) *Meta {
+	m.Limit = limit
+	return m
+}
+
+func (m *Meta) SetOffset(offset int64) *Meta {
+	m.Offset = offset
+	return m
+}
+
+func (m *Meta) SetTotal(total int64) *Meta {
+	m.Total = total
+	return m
 }
 
 const (
