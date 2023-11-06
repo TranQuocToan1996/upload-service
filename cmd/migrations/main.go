@@ -3,10 +3,10 @@ package main
 import (
 	"database/sql"
 	"embed"
-	"errors"
 	"fmt"
 	"log"
-	"os"
+
+	"upload_service/utils"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/pressly/goose/v3"
@@ -17,18 +17,10 @@ import (
 var embedMigrations embed.FS
 
 func main() {
-	viper.AutomaticEnv()
-	viper.SetConfigFile(".env")
-	err := viper.ReadInConfig()
-	var pathErr *os.PathError
-	if errors.As(err, &pathErr) {
-		log.Printf("no config file '%s' not found. Using default values", ".env")
-	} else if err != nil { // Handle other errors that occurred while reading the config file
-		panic(fmt.Errorf("fatal error while reading the config file: %w", err))
-	}
+	utils.InitConfig(".env")
 	var db *sql.DB
 	// setup database
-	db, err = goose.OpenDBWithDriver("mysql", fmt.Sprintf(
+	db, err := goose.OpenDBWithDriver("mysql", fmt.Sprintf(
 		"%v:%v@tcp(%v:%v)/%v?parseTime=true&charset=utf8mb4",
 		viper.GetString("MYSQL_USERNAME"),
 		viper.GetString("MYSQL_PASSWORD"),
