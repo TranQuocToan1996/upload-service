@@ -9,6 +9,7 @@ import (
 type UploadRepository interface {
 	Create(upload *models.Upload) error
 	UpdateStatus(uploadID uint, status models.UploadStatus) (int64, error)
+	GetByID(id uint) (*models.Upload, error)
 }
 
 type uploadRepository struct {
@@ -28,4 +29,13 @@ func (r *uploadRepository) UpdateStatus(uploadID uint, status models.UploadStatu
 		Where("id = ?", uploadID).
 		Update("status", status)
 	return res.RowsAffected, res.Error
+}
+
+func (r *uploadRepository) GetByID(id uint) (*models.Upload, error) {
+	var upload models.Upload
+	err := r.db.First(&upload, id).Error
+	if err != nil {
+		return nil, err
+	}
+	return &upload, nil
 }

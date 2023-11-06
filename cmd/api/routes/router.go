@@ -49,6 +49,7 @@ func Router(
 
 	fileGroup := privateGroup.Group("/files")
 	fileGroup.POST("/upload", uploadHandler.Upload)
+	fileGroup.GET("/:file_id/download", uploadHandler.Download)
 
 	return r
 }
