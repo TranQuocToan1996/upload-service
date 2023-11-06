@@ -68,9 +68,12 @@ func (s *authService) Register(
 		return response, err
 	}
 
-	token := s.createToken(&tokens.UserClaims{
+	token, err := s.createToken(&tokens.UserClaims{
 		UserID: newUser.ID,
 	})
+	if err != nil {
+		return response, err
+	}
 
 	response.Data = &dtos.Tokens{
 		AccessToken: token,
@@ -101,9 +104,12 @@ func (s *authService) Login(
 		return response, ErrPasswordWrong
 	}
 
-	token := s.createToken(&tokens.UserClaims{
+	token, err := s.createToken(&tokens.UserClaims{
 		UserID: existUser.ID,
 	})
+	if err != nil {
+		return response, err
+	}
 
 	response.Data = &dtos.Tokens{
 		AccessToken: token,
@@ -113,6 +119,6 @@ func (s *authService) Login(
 	return response, nil
 }
 
-func (s *authService) createToken(claims *tokens.UserClaims) string {
+func (s *authService) createToken(claims *tokens.UserClaims) (string, error) {
 	return s.tokenProvider.CreateToken(claims)
 }
