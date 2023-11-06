@@ -768,6 +768,262 @@
 					"body": "{\n    \"message\": \"Request Entity Too Large\"\n}"
 				}
 			]
+		},
+		{
+			"name": "Download file",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cGxvYWRTZXJ2aWNlIiwic3ViIjoiMiIsImF1ZCI6WyJhY2Nlc3MiXSwiZXhwIjoxNjk3OTEyMDY1LCJuYmYiOjE2OTc5MTExNjUsImlhdCI6MTY5NzkxMTE2NSwianRpIjoiNTAyOTg4NmQtMTE5YS00ZWYxLWIzMDUtODM0ZmJhOWU0NGYxIiwidXNlcl9pZCI6Mn0.UCPggor757ETRYumGeXxDOiD5X4cYMeQRNlqyyGdS_4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/upload-service/v1/files/1/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"upload-service",
+						"v1",
+						"files",
+						"1",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get List meta files upload",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1cGxvYWRTZXJ2aWNlIiwic3ViIjoiMiIsImF1ZCI6WyJhY2Nlc3MiXSwiZXhwIjoxNjk5MjY4ODIyLCJuYmYiOjE2OTkyNjc5MjIsImlhdCI6MTY5OTI2NzkyMiwianRpIjoiZTYxOTQ1ZjEtOTVkNS00MGM4LWIxZGMtMGY4NWZjN2E0M2U0IiwidXNlcl9pZCI6Mn0.SYybB4bydbbP6gtTaoh32O2FdzjPN1gnsq0iXBOTj6o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/upload-service/v1/files?limit=0&offset=1&user_id=0&status&destination_file_name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"upload-service",
+						"v1",
+						"files"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "0",
+							"description": "Default 20, More than max value (100) set to 20"
+						},
+						{
+							"key": "offset",
+							"value": "1",
+							"description": "Default 0"
+						},
+						{
+							"key": "user_id",
+							"value": "0",
+							"description": "Default 0, skip. Must sign int."
+						},
+						{
+							"key": "status",
+							"value": null,
+							"description": "Default \"\", skip."
+						},
+						{
+							"key": "destination_file_name",
+							"value": null,
+							"description": "Default \"\", skip."
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/upload-service/v1/files?limit=0&offset=0&user_id=0&status&destination_file_name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"upload-service",
+								"v1",
+								"files"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "0",
+									"description": "Default 20, More than max value (100) set to 20"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Default 0"
+								},
+								{
+									"key": "user_id",
+									"value": "0",
+									"description": "Default 0, skip. Must sign int."
+								},
+								{
+									"key": "status",
+									"value": null,
+									"description": "Default \"\", skip."
+								},
+								{
+									"key": "destination_file_name",
+									"value": null,
+									"description": "Default \"\", skip."
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Xss-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Nov 2023 10:53:34 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"meta\": {\n        \"code\": \"200\",\n        \"message\": \"Success\",\n        \"limit\": 20,\n        \"total\": 24\n    },\n    \"data\": [\n        {\n            \"id\": 24,\n            \"source_file_name\": \"33a26d1223daf684afcb.jpg\",\n            \"destination_file_name\": \"1699264839_33a26d1223daf684afcb.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 144899,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-11-06T10:00:39Z\",\n            \"updated_at\": \"2023-11-06T10:00:39Z\"\n        },\n        {\n            \"id\": 23,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697911182_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:59:42Z\",\n            \"updated_at\": \"2023-10-21T17:59:46Z\"\n        },\n        {\n            \"id\": 22,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697911173_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:59:33Z\",\n            \"updated_at\": \"2023-10-21T17:59:38Z\"\n        },\n        {\n            \"id\": 21,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910949_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:55:49Z\",\n            \"updated_at\": \"2023-10-21T17:55:52Z\"\n        },\n        {\n            \"id\": 20,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910937_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:55:38Z\",\n            \"updated_at\": \"2023-10-21T17:55:47Z\"\n        },\n        {\n            \"id\": 19,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910854_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:54:14Z\",\n            \"updated_at\": \"2023-10-21T17:54:24Z\"\n        },\n        {\n            \"id\": 18,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910837_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:53:57Z\",\n            \"updated_at\": \"2023-10-21T17:54:10Z\"\n        },\n        {\n            \"id\": 17,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910727_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Pending\",\n            \"created_at\": \"2023-10-21T17:52:08Z\",\n            \"updated_at\": \"2023-10-21T17:52:08Z\"\n        },\n        {\n            \"id\": 16,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910660_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Pending\",\n            \"created_at\": \"2023-10-21T17:51:00Z\",\n            \"updated_at\": \"2023-10-21T17:51:00Z\"\n        },\n        {\n            \"id\": 15,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910634_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Fail\",\n            \"created_at\": \"2023-10-21T17:50:35Z\",\n            \"updated_at\": \"2023-10-21T17:50:35Z\"\n        },\n        {\n            \"id\": 14,\n            \"source_file_name\": \"BlackMarble_2016_1200m_africa_s_labeled.png\",\n            \"destination_file_name\": \"1697910269_BlackMarble_2016_1200m_africa_s_labeled.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 16337697,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:44:30Z\",\n            \"updated_at\": \"2023-10-21T17:44:30Z\"\n        },\n        {\n            \"id\": 13,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697909460_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:31:02Z\",\n            \"updated_at\": \"2023-10-21T17:31:03Z\"\n        },\n        {\n            \"id\": 12,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697909318_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:28:38Z\",\n            \"updated_at\": \"2023-10-21T17:28:41Z\"\n        },\n        {\n            \"id\": 11,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697909175_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:26:15Z\",\n            \"updated_at\": \"2023-10-21T17:26:29Z\"\n        },\n        {\n            \"id\": 10,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697909158_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:25:59Z\",\n            \"updated_at\": \"2023-10-21T17:26:07Z\"\n        },\n        {\n            \"id\": 9,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697909058_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:24:19Z\",\n            \"updated_at\": \"2023-10-21T17:25:20Z\"\n        },\n        {\n            \"id\": 8,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697908947_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:22:27Z\",\n            \"updated_at\": \"2023-10-21T17:23:21Z\"\n        },\n        {\n            \"id\": 7,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697908933_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Pending\",\n            \"created_at\": \"2023-10-21T17:22:14Z\",\n            \"updated_at\": \"2023-10-21T17:22:14Z\"\n        },\n        {\n            \"id\": 6,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697908853_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Fail\",\n            \"created_at\": \"2023-10-21T17:20:57Z\",\n            \"updated_at\": \"2023-10-21T17:21:03Z\"\n        },\n        {\n            \"id\": 5,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697908801_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Pending\",\n            \"created_at\": \"2023-10-21T17:20:03Z\",\n            \"updated_at\": \"2023-10-21T17:20:03Z\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "Another OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/upload-service/v1/files?limit=0&offset=1&user_id=0&status&destination_file_name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"upload-service",
+								"v1",
+								"files"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "0",
+									"description": "Default 20, More than max value (100) set to 20"
+								},
+								{
+									"key": "offset",
+									"value": "1",
+									"description": "Default 0"
+								},
+								{
+									"key": "user_id",
+									"value": "0",
+									"description": "Default 0, skip. Must sign int."
+								},
+								{
+									"key": "status",
+									"value": null,
+									"description": "Default \"\", skip."
+								},
+								{
+									"key": "destination_file_name",
+									"value": null,
+									"description": "Default \"\", skip."
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Xss-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 06 Nov 2023 10:53:54 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"meta\": {\n        \"code\": \"200\",\n        \"message\": \"Success\",\n        \"limit\": 20,\n        \"offset\": 1,\n        \"total\": 24\n    },\n    \"data\": [\n        {\n            \"id\": 23,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697911182_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:59:42Z\",\n            \"updated_at\": \"2023-10-21T17:59:46Z\"\n        },\n        {\n            \"id\": 22,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697911173_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:59:33Z\",\n            \"updated_at\": \"2023-10-21T17:59:38Z\"\n        },\n        {\n            \"id\": 21,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910949_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:55:49Z\",\n            \"updated_at\": \"2023-10-21T17:55:52Z\"\n        },\n        {\n            \"id\": 20,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910937_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:55:38Z\",\n            \"updated_at\": \"2023-10-21T17:55:47Z\"\n        },\n        {\n            \"id\": 19,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910854_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:54:14Z\",\n            \"updated_at\": \"2023-10-21T17:54:24Z\"\n        },\n        {\n            \"id\": 18,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910837_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:53:57Z\",\n            \"updated_at\": \"2023-10-21T17:54:10Z\"\n        },\n        {\n            \"id\": 17,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910727_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Pending\",\n            \"created_at\": \"2023-10-21T17:52:08Z\",\n            \"updated_at\": \"2023-10-21T17:52:08Z\"\n        },\n        {\n            \"id\": 16,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910660_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Pending\",\n            \"created_at\": \"2023-10-21T17:51:00Z\",\n            \"updated_at\": \"2023-10-21T17:51:00Z\"\n        },\n        {\n            \"id\": 15,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697910634_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Fail\",\n            \"created_at\": \"2023-10-21T17:50:35Z\",\n            \"updated_at\": \"2023-10-21T17:50:35Z\"\n        },\n        {\n            \"id\": 14,\n            \"source_file_name\": \"BlackMarble_2016_1200m_africa_s_labeled.png\",\n            \"destination_file_name\": \"1697910269_BlackMarble_2016_1200m_africa_s_labeled.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 16337697,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:44:30Z\",\n            \"updated_at\": \"2023-10-21T17:44:30Z\"\n        },\n        {\n            \"id\": 13,\n            \"source_file_name\": \"Go roadmap.png\",\n            \"destination_file_name\": \"1697909460_Go roadmap.png\",\n            \"content_type\": \"image/png\",\n            \"size\": 426665,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:31:02Z\",\n            \"updated_at\": \"2023-10-21T17:31:03Z\"\n        },\n        {\n            \"id\": 12,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697909318_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:28:38Z\",\n            \"updated_at\": \"2023-10-21T17:28:41Z\"\n        },\n        {\n            \"id\": 11,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697909175_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:26:15Z\",\n            \"updated_at\": \"2023-10-21T17:26:29Z\"\n        },\n        {\n            \"id\": 10,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697909158_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:25:59Z\",\n            \"updated_at\": \"2023-10-21T17:26:07Z\"\n        },\n        {\n            \"id\": 9,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697909058_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:24:19Z\",\n            \"updated_at\": \"2023-10-21T17:25:20Z\"\n        },\n        {\n            \"id\": 8,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697908947_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Done\",\n            \"created_at\": \"2023-10-21T17:22:27Z\",\n            \"updated_at\": \"2023-10-21T17:23:21Z\"\n        },\n        {\n            \"id\": 7,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697908933_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Pending\",\n            \"created_at\": \"2023-10-21T17:22:14Z\",\n            \"updated_at\": \"2023-10-21T17:22:14Z\"\n        },\n        {\n            \"id\": 6,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697908853_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Fail\",\n            \"created_at\": \"2023-10-21T17:20:57Z\",\n            \"updated_at\": \"2023-10-21T17:21:03Z\"\n        },\n        {\n            \"id\": 5,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697908801_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Pending\",\n            \"created_at\": \"2023-10-21T17:20:03Z\",\n            \"updated_at\": \"2023-10-21T17:20:03Z\"\n        },\n        {\n            \"id\": 4,\n            \"source_file_name\": \"db6b47a34075952bcc64.jpg\",\n            \"destination_file_name\": \"1697908680_db6b47a34075952bcc64.jpg\",\n            \"content_type\": \"image/jpeg\",\n            \"size\": 724376,\n            \"user_id\": 2,\n            \"status\": \"Pending\",\n            \"created_at\": \"2023-10-21T17:18:04Z\",\n            \"updated_at\": \"2023-10-21T17:18:04Z\"\n        }\n    ]\n}"
+				}
+			]
 		}
 	]
 }
