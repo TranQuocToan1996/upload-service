@@ -86,7 +86,7 @@ func (h *UploadHandler) Upload(c echo.Context) error {
 		}
 	}()
 
-	if !h.isValidContentType(upload.ContentType) {
+	if !h.isValidContentType(upload.ContentType) || !h.isValidSize(upload.SizeBytes) {
 		return c.JSON(h.GetHTTPCode(response.Meta.Code), response)
 	}
 
@@ -144,4 +144,8 @@ func (h *UploadHandler) isValidContentType(contentType string) bool {
 // and avoid truncate when os.Create(fileName) in /tmp
 func (h *UploadHandler) getDestinationName(fileName string) string {
 	return fmt.Sprintf("%v_%v", time.Now().Unix(), fileName)
+}
+
+func (h *UploadHandler) isValidSize(curSize int64) bool {
+	return curSize <= h.config.UploadLimitBytes
 }
